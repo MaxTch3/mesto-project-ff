@@ -1,5 +1,6 @@
 import './pages/index.css';
 import { createCard, deleteCard } from './components/card';
+import { openPopup, openPopupWithImage, closePopup } from './components/popup';
 import {
   placesList,
   profileEditButton,
@@ -7,9 +8,9 @@ import {
   popupTypeEdit,
   profileAddButton,
   popupTypeNewCard,
-  popupTypeImage
+  popupTypeImage,
+  popupCloseButtons,
 } from './utils/constants';
-import { openPopup, openPopupWithImage } from './components/popup';
 
 initialCards.forEach(item => {
   const newCard = createCard(item.name, item.link, deleteCard);
@@ -26,3 +27,7 @@ placesList.addEventListener('click', (evt) => {
     openPopupWithImage(popupTypeImage, name, link);
   }
 });
+
+popupCloseButtons.forEach((item) => {
+  item.addEventListener('click', closePopup)
+})
