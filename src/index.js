@@ -1,21 +1,17 @@
 import './pages/index.css';
 import { createCard, deleteCard } from './components/card';
-import {
-  openPopup,
-  openPopupWithImage,
-  closePopup,
-} from './components/popup';
-import {
-  placesList,
-  profileEditButton,
-  initialCards,
-  popupTypeEdit,
-  profileAddButton,
-  popupTypeNewCard,
-  popupTypeImage,
-  popupCloseButtons,
-  popups,
-} from './utils/constants';
+import { openPopup, openPopupWithImage, closePopup } from './components/modal';
+import { initialCards } from './utils/constants';
+
+export const cardTemplate = document.querySelector('#card-template').content;
+const placesList = document.querySelector('.places__list');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
+const profileAddButton = document.querySelector('.profile__add-button');
+const popupTypeNewCard = document.querySelector('.popup_type_new-card');
+const popupTypeImage = document.querySelector('.popup_type_image');
+const popupCloseButtons = document.querySelectorAll('.popup__close');
+const popups = document.querySelectorAll('.popup');
 
 initialCards.forEach(item => {
   const newCard = createCard(item.name, item.link, deleteCard);

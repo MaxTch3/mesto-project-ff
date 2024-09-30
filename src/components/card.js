@@ -1,4 +1,4 @@
-import { cardTemplate } from "../utils/constants";
+import { cardTemplate } from "../index";
 
 function createCard(name, link, onDelete) {
   const card = cardTemplate.cloneNode(true);
