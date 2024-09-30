@@ -1,6 +1,10 @@
 import './pages/index.css';
 import { createCard, deleteCard } from './components/card';
-import { openPopup, openPopupWithImage, closePopup } from './components/popup';
+import {
+  openPopup,
+  openPopupWithImage,
+  closePopup,
+} from './components/popup';
 import {
   placesList,
   profileEditButton,
@@ -10,6 +14,7 @@ import {
   popupTypeNewCard,
   popupTypeImage,
   popupCloseButtons,
+  popups,
 } from './utils/constants';
 
 initialCards.forEach(item => {
@@ -28,6 +33,14 @@ placesList.addEventListener('click', (evt) => {
   }
 });
 
-popupCloseButtons.forEach((item) => {
-  item.addEventListener('click', closePopup)
+popupCloseButtons.forEach((button) => {
+  button.addEventListener('click', closePopup)
+});
+
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === popup) {
+      closePopup()
+    }
+  })
 })

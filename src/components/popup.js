@@ -1,5 +1,6 @@
 export function openPopup(popup) {
   popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', handleEscClose);
 }
 
 export function openPopupWithImage(popup, name, link) {
@@ -8,10 +9,17 @@ export function openPopupWithImage(popup, name, link) {
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;
-  popup.classList.add('popup_is-opened');
+  openPopup(popup);
 }
 
 export function closePopup() {
   const openedPopup = document.querySelector('.popup_is-opened');
+  document.removeEventListener('keydown', handleEscClose);
   openedPopup.classList.remove('popup_is-opened');
+}
+
+export function handleEscClose(evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
+  }
 }
