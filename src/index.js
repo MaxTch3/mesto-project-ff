@@ -1,5 +1,5 @@
 import './pages/index.css';
-import { createCard, deleteCard } from './components/card';
+import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, openPopupWithImage, closePopup } from './components/modal';
 import { initialCards } from './utils/constants';
 
@@ -22,7 +22,7 @@ const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
 
 initialCards.forEach(item => {
-  const newCard = createCard(item.name, item.link, deleteCard);
+  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard);
   placesList.prepend(newCard);
 });
 
@@ -65,7 +65,7 @@ formEditElement.addEventListener('submit', (evt) => {
 
 formAddElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const newCard = createCard(titleInput.value, imageInput.value, deleteCard);
+  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard);
   placesList.prepend(newCard);
   closePopup();
   formAddElement.reset(); 
