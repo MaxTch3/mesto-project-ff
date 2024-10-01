@@ -21,11 +21,6 @@ function deleteCard(evt) {
 
 function toggleLikeCard(evt) {
   const likeButton = evt.target;
-  // if (!likeButton.classList.contains('card__like-button_is-active')) {
-  //   likeButton.classList.add('card__like-button_is-active');
-  // } else {
-  //   likeButton.classList.remove('card__like-button_is-active');
-  // }
   !likeButton.classList.contains('card__like-button_is-active')
     ? likeButton.classList.add('card__like-button_is-active')
     : likeButton.classList.remove('card__like-button_is-active')

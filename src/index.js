@@ -1,7 +1,7 @@
 import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
-import { openPopup, openPopupWithImage, closePopup } from './components/modal';
-import { initialCards } from './utils/constants';
+import { openPopup, closePopup, handleOverlayClose } from './components/modal';
+import { initialCards } from './components/cards';
 
 export const cardTemplate = document.querySelector('#card-template').content;
 const placesList = document.querySelector('.places__list');
@@ -21,52 +21,62 @@ const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
 
-initialCards.forEach(item => {
-  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard);
-  placesList.prepend(newCard);
-});
-
-profileEditButton.addEventListener('click', () => {
+function openProfileEditModal() {
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileDescription.textContent;
   openPopup(popupTypeEdit)
-});
+}
 
-profileAddButton.addEventListener('click', () => openPopup(popupTypeNewCard));
+function openNewCardModal() {
+  openPopup(popupTypeNewCard)
+}
 
-placesList.addEventListener('click', (evt) => {
+function openCardImageModal(evt) {
   const imageElement = evt.target.closest('.card__image');
   if (imageElement) {
     const name = imageElement.alt;
     const link = imageElement.src;
-    openPopupWithImage(popupTypeImage, name, link);
+    const popupImage = popupTypeImage.querySelector('.popup__image');
+    const popupCaption = popupTypeImage.querySelector('.popup__caption');
+    popupImage.src = link;
+    popupImage.alt = name;
+    popupCaption.textContent = name;
+    openPopup(popupTypeImage);
   }
-});
+}
+
+function handleFormEditSubmit(evt) {
+  evt.preventDefault();
+  profileTitle.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+  closePopup();
+  formEditElement.reset();
+}
+
+function handleFormAddSubmit(evt) {
+  evt.preventDefault();
+  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard);
+  placesList.prepend(newCard);
+  closePopup();
+  formAddElement.reset();
+}
+
+formEditElement.addEventListener('submit', handleFormEditSubmit);
+formAddElement.addEventListener('submit', handleFormAddSubmit);
+
+profileEditButton.addEventListener('click', openProfileEditModal);
+profileAddButton.addEventListener('click', openNewCardModal);
+placesList.addEventListener('click', openCardImageModal);
 
 popupCloseButtons.forEach((button) => {
   button.addEventListener('click', closePopup)
 });
 
 popups.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target === popup) {
-      closePopup()
-    }
-  })
+  popup.addEventListener('click', handleOverlayClose)
 });
 
-formEditElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = descriptionInput.value;
-  closePopup();
-  formEditElement.reset();
-});
-
-formAddElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard);
+initialCards.forEach(item => {
+  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard);
   placesList.prepend(newCard);
-  closePopup();
-  formAddElement.reset(); 
-})
+});
