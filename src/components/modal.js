@@ -3,20 +3,21 @@ export function openPopup(popup) {
   document.addEventListener('keydown', handleEscClose);
 };
 
-export function closePopup() {
-  const openedPopup = document.querySelector('.popup_is-opened');
+export function closePopup(popup) {
   document.removeEventListener('keydown', handleEscClose);
-  openedPopup.classList.remove('popup_is-opened');
+  popup.classList.remove('popup_is-opened');
 };
 
 export function handleEscClose(evt) {
+  const openedPopup = document.querySelector('.popup_is-opened');
   if (evt.key === 'Escape') {
-    closePopup();
+    closePopup(openedPopup);
   }
 };
 
 export function handleOverlayClose(evt) {
+  const openedPopup = document.querySelector('.popup_is-opened');
   if (evt.target.classList.contains('popup')) {
-    closePopup()
+    closePopup(openedPopup)
   }
 };

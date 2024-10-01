@@ -3,7 +3,6 @@ import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { initialCards } from './components/cards';
 
-export const cardTemplate = document.querySelector('#card-template').content;
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
@@ -28,37 +27,41 @@ function openProfileEditModal() {
 }
 
 function openNewCardModal() {
+  formAddElement.reset()
   openPopup(popupTypeNewCard)
 }
 
 function openCardImageModal(evt) {
-  const imageElement = evt.target.closest('.card__image');
-  if (imageElement) {
-    const name = imageElement.alt;
-    const link = imageElement.src;
-    const popupImage = popupTypeImage.querySelector('.popup__image');
-    const popupCaption = popupTypeImage.querySelector('.popup__caption');
-    popupImage.src = link;
-    popupImage.alt = name;
-    popupCaption.textContent = name;
-    openPopup(popupTypeImage);
-  }
+  const imageElement = evt.target;
+  const name = imageElement.alt;
+  const link = imageElement.src;
+  const popupImage = popupTypeImage.querySelector('.popup__image');
+  const popupCaption = popupTypeImage.querySelector('.popup__caption');
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupCaption.textContent = name;
+  openPopup(popupTypeImage);
 }
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = descriptionInput.value;
-  closePopup();
+  closePopup(popupTypeEdit);
   formEditElement.reset();
 }
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard);
+  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard, openCardImageModal);
   placesList.prepend(newCard);
-  closePopup();
+  closePopup(popupTypeNewCard);
   formAddElement.reset();
+}
+
+function handleCloseButtonClick(evt) {
+  const popup = evt.target.closest('.popup');
+  closePopup(popup);
 }
 
 formEditElement.addEventListener('submit', handleFormEditSubmit);
@@ -66,10 +69,9 @@ formAddElement.addEventListener('submit', handleFormAddSubmit);
 
 profileEditButton.addEventListener('click', openProfileEditModal);
 profileAddButton.addEventListener('click', openNewCardModal);
-placesList.addEventListener('click', openCardImageModal);
 
 popupCloseButtons.forEach((button) => {
-  button.addEventListener('click', closePopup)
+  button.addEventListener('click', handleCloseButtonClick)
 });
 
 popups.forEach((popup) => {
@@ -77,6 +79,6 @@ popups.forEach((popup) => {
 });
 
 initialCards.forEach(item => {
-  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard);
+  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard, openCardImageModal);
   placesList.prepend(newCard);
 });

@@ -1,6 +1,6 @@
-import { cardTemplate } from "../index";
+const cardTemplate = document.querySelector('#card-template').content;
 
-function createCard(name, link, onDelete, onLike) {
+function createCard(name, link, onDelete, onLike, onModal) {
   const card = cardTemplate.cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -10,7 +10,8 @@ function createCard(name, link, onDelete, onLike) {
   cardImage.alt = name;
   cardTitle.textContent = name;
   buttonDelete.addEventListener('click', onDelete);
-  buttonLike.addEventListener('click', onLike)
+  buttonLike.addEventListener('click', onLike);
+  cardImage.addEventListener('click', onModal);
   return card;
 }
 
