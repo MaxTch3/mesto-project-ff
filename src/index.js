@@ -9,6 +9,8 @@ const popupTypeEdit = document.querySelector('.popup_type_edit');
 const profileAddButton = document.querySelector('.profile__add-button');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const popupTypeImage = document.querySelector('.popup_type_image');
+const popupImage = popupTypeImage.querySelector('.popup__image');
+const popupCaption = popupTypeImage.querySelector('.popup__caption');
 const popupCloseButtons = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
 const profileTitle = document.querySelector('.profile__title');
@@ -23,20 +25,18 @@ const imageInput = formAddElement.querySelector('.popup__input_type_url');
 function openProfileEditModal() {
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileDescription.textContent;
-  openPopup(popupTypeEdit)
+  openPopup(popupTypeEdit);
 }
 
 function openNewCardModal() {
-  formAddElement.reset()
-  openPopup(popupTypeNewCard)
+  formAddElement.reset();
+  openPopup(popupTypeNewCard);
 }
 
 function openCardImageModal(evt) {
   const imageElement = evt.target;
   const name = imageElement.alt;
   const link = imageElement.src;
-  const popupImage = popupTypeImage.querySelector('.popup__image');
-  const popupCaption = popupTypeImage.querySelector('.popup__caption');
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;
@@ -53,7 +53,13 @@ function handleFormEditSubmit(evt) {
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const newCard = createCard(titleInput.value, imageInput.value, deleteCard, toggleLikeCard, openCardImageModal);
+  const newCard = createCard(
+    titleInput.value,
+    imageInput.value,
+    deleteCard,
+    toggleLikeCard,
+    openCardImageModal
+  );
   placesList.prepend(newCard);
   closePopup(popupTypeNewCard);
   formAddElement.reset();
@@ -71,14 +77,20 @@ profileEditButton.addEventListener('click', openProfileEditModal);
 profileAddButton.addEventListener('click', openNewCardModal);
 
 popupCloseButtons.forEach((button) => {
-  button.addEventListener('click', handleCloseButtonClick)
+  button.addEventListener('click', handleCloseButtonClick);
 });
 
 popups.forEach((popup) => {
-  popup.addEventListener('click', handleOverlayClose)
+  popup.addEventListener('click', handleOverlayClose);
 });
 
-initialCards.forEach(item => {
-  const newCard = createCard(item.name, item.link, deleteCard, toggleLikeCard, openCardImageModal);
+initialCards.forEach((item) => {
+  const newCard = createCard(
+    item.name,
+    item.link,
+    deleteCard,
+    toggleLikeCard,
+    openCardImageModal
+  );
   placesList.prepend(newCard);
 });
