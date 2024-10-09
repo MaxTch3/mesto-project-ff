@@ -1,0 +1,9 @@
+.popup__input-error {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: calc(100% + 5px);
+  color: #f00;
+  font-size: 12px;
+  line-height: 1.21;
+  opacity: 0;
+}
