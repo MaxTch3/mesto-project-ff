@@ -2,6 +2,7 @@ import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { initialCards } from './components/cards';
+import { enableValidation } from './components/validation';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -17,7 +18,9 @@ const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const formEditElement = document.querySelector('form[name="edit-profile"]');
 const nameInput = formEditElement.querySelector('.popup__input_type_name');
-const descriptionInput = formEditElement.querySelector('.popup__input_type_description');
+const descriptionInput = formEditElement.querySelector(
+  '.popup__input_type_description'
+);
 const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
@@ -93,4 +96,13 @@ initialCards.forEach((item) => {
     openCardImageModal
   );
   placesList.prepend(newCard);
+});
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_visible',
 });

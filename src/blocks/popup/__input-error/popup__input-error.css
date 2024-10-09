@@ -6,4 +6,5 @@
   font-size: 12px;
   line-height: 1.21;
   opacity: 0;
+  z-index: 1;
 }
