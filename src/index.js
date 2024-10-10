@@ -107,22 +107,23 @@ popups.forEach((popup) => {
 
 enableValidation(validationConfig);
 
-getUserData().then((res) => {
-  profileTitle.textContent = res.name;
-  profileDescription.textContent = res.about;
-  profileAvatar.style.backgroundImage = `url('${res.avatar}')`;
-  profileId = res._id;
-});
-
-getCards().then((res) => {
-  res.forEach((item) => {
-    const newCard = createCard(
-      item.name,
-      item.link,
-      deleteCard,
-      toggleLikeCard,
-      openCardImageModal
-    );
-    addCard(newCard);
+Promise.all([getUserData(), getCards()])
+  .then(([userData, cards]) => {
+    profileTitle.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    profileAvatar.style.backgroundImage = `url('${userData.avatar}')`;
+    profileId = userData._id;
+    cards.forEach((card) => {
+      const newCard = createCard(
+        card.name,
+        card.link,
+        deleteCard,
+        toggleLikeCard,
+        openCardImageModal
+      );
+      addCard(newCard);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-});
