@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { initialCards } from './components/cards';
-import { enableValidation } from './components/validation';
+import { clearValidation, enableValidation } from './components/validation';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -25,13 +25,24 @@ const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
 
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_visible',
+};
+
 function openProfileEditModal() {
+  clearValidation(formEditElement, validationConfig);
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileDescription.textContent;
   openPopup(popupTypeEdit);
 }
 
 function openNewCardModal() {
+  clearValidation(formAddElement, validationConfig);
   formAddElement.reset();
   openPopup(popupTypeNewCard);
 }
@@ -98,11 +109,4 @@ initialCards.forEach((item) => {
   placesList.prepend(newCard);
 });
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_visible',
-});
+enableValidation(validationConfig);
