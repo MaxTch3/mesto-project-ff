@@ -3,6 +3,7 @@ import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { initialCards } from './components/cards';
 import { clearValidation, enableValidation } from './components/validation';
+import { getUserData } from './components/api';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -110,3 +111,8 @@ initialCards.forEach((item) => {
 });
 
 enableValidation(validationConfig);
+
+getUserData()
+  .then((result) => {
+    console.log(result);
+  });
