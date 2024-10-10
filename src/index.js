@@ -1,9 +1,8 @@
 import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
-import { initialCards } from './components/cards';
 import { clearValidation, enableValidation } from './components/validation';
-import { getUserData } from './components/api';
+import { getCards, getUserData } from './components/api';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -78,7 +77,7 @@ function handleFormAddSubmit(evt) {
     toggleLikeCard,
     openCardImageModal
   );
-  placesList.prepend(newCard);
+  addCard(newCard);
   closePopup(popupTypeNewCard);
   formAddElement.reset();
 }
@@ -86,6 +85,10 @@ function handleFormAddSubmit(evt) {
 function handleCloseButtonClick(evt) {
   const popup = evt.target.closest('.popup');
   closePopup(popup);
+}
+
+function addCard(card) {
+  placesList.prepend(card);
 }
 
 formEditElement.addEventListener('submit', handleFormEditSubmit);
@@ -102,17 +105,6 @@ popups.forEach((popup) => {
   popup.addEventListener('click', handleOverlayClose);
 });
 
-initialCards.forEach((item) => {
-  const newCard = createCard(
-    item.name,
-    item.link,
-    deleteCard,
-    toggleLikeCard,
-    openCardImageModal
-  );
-  placesList.prepend(newCard);
-});
-
 enableValidation(validationConfig);
 
 getUserData().then((res) => {
@@ -120,4 +112,17 @@ getUserData().then((res) => {
   profileDescription.textContent = res.about;
   profileAvatar.style.backgroundImage = `url('${res.avatar}')`;
   profileId = res._id;
+});
+
+getCards().then((res) => {
+  res.forEach((item) => {
+    const newCard = createCard(
+      item.name,
+      item.link,
+      deleteCard,
+      toggleLikeCard,
+      openCardImageModal
+    );
+    addCard(newCard);
+  });
 });
