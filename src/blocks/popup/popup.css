@@ -11,6 +11,7 @@
 @import url('./__input/_type/popup__input_type_error.css');
 @import url('./__input-error/popup__input-error.css');
 @import url('./__input-error/_visible/popup__input-error_visible.css');
+@import url('./__button/_disabled/popup__button_disabled.css');
 
 .popup {
   font-family: 'Inter', Arial, sans-serif;
