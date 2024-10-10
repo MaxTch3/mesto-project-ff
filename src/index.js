@@ -25,6 +25,7 @@ const descriptionInput = formEditElement.querySelector(
 const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
+const profileAvatar = document.querySelector('.profile__image');
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -34,6 +35,8 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_visible',
 };
+
+let profileId = '';
 
 function openProfileEditModal() {
   clearValidation(formEditElement, validationConfig);
@@ -112,7 +115,9 @@ initialCards.forEach((item) => {
 
 enableValidation(validationConfig);
 
-getUserData()
-  .then((result) => {
-    console.log(result);
-  });
+getUserData().then((res) => {
+  profileTitle.textContent = res.name;
+  profileDescription.textContent = res.about;
+  profileAvatar.style.backgroundImage = `url('${res.avatar}')`;
+  profileId = res._id;
+});
