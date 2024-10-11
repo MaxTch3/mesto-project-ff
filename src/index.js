@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation';
-import { getCards, getUserData } from './components/api';
+import { getCards, getUserData, updateUserData } from './components/api';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -62,10 +62,17 @@ function openCardImageModal(evt) {
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = descriptionInput.value;
-  closePopup(popupTypeEdit);
-  formEditElement.reset();
+  updateUserData(nameInput.value, descriptionInput.value)
+    .then((res) => {
+      console.log(res);
+      profileTitle.textContent = res.name;
+      profileDescription.textContent = res.about;
+      closePopup(popupTypeEdit);
+      formEditElement.reset();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function handleFormAddSubmit(evt) {
