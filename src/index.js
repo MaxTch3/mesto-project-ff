@@ -85,6 +85,7 @@ function handleFormAddSubmit(evt) {
     const newCard = createCard(
       res.name,
       res.link,
+      res.likes.length,
       deleteCard,
       toggleLikeCard,
       openCardImageModal
@@ -127,9 +128,11 @@ Promise.all([getUserData(), getCards()])
     profileAvatar.style.backgroundImage = `url('${userData.avatar}')`;
     profileId = userData._id;
     cards.reverse().forEach((card) => {
+      console.log(card);
       const newCard = createCard(
         card.name,
         card.link,
+        card.likes.length,
         deleteCard,
         toggleLikeCard,
         openCardImageModal
