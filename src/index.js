@@ -82,7 +82,6 @@ function handleFormEditSubmit(evt) {
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
   addNewCard(titleInput.value, imageInput.value).then((res) => {
-    console.log(res);
     const newCard = createCard(
       res.name,
       res.link,
