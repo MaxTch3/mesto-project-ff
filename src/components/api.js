@@ -32,3 +32,14 @@ export const updateUserData = (name, description) => {
     }),
   }).then((res) => checkResponse(res));
 };
+
+export const addNewCard = (name, link) => {
+  return fetch(`${apiConfig.baseUrl}cards`, {
+    method: 'POST',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      name: name,
+      link: link,
+    }),
+  }).then((res) => checkResponse(res));
+};

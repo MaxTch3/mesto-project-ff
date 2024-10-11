@@ -2,7 +2,12 @@ import './pages/index.css';
 import { createCard, deleteCard, toggleLikeCard } from './components/card';
 import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation';
-import { getCards, getUserData, updateUserData } from './components/api';
+import {
+  addNewCard,
+  getCards,
+  getUserData,
+  updateUserData,
+} from './components/api';
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -64,7 +69,6 @@ function handleFormEditSubmit(evt) {
   evt.preventDefault();
   updateUserData(nameInput.value, descriptionInput.value)
     .then((res) => {
-      console.log(res);
       profileTitle.textContent = res.name;
       profileDescription.textContent = res.about;
       closePopup(popupTypeEdit);
@@ -77,16 +81,19 @@ function handleFormEditSubmit(evt) {
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const newCard = createCard(
-    titleInput.value,
-    imageInput.value,
-    deleteCard,
-    toggleLikeCard,
-    openCardImageModal
-  );
-  addCard(newCard);
-  closePopup(popupTypeNewCard);
-  formAddElement.reset();
+  addNewCard(titleInput.value, imageInput.value).then((res) => {
+    console.log(res);
+    const newCard = createCard(
+      res.name,
+      res.link,
+      deleteCard,
+      toggleLikeCard,
+      openCardImageModal
+    );
+    addCard(newCard);
+    closePopup(popupTypeNewCard);
+    formAddElement.reset();
+  });
 }
 
 function handleCloseButtonClick(evt) {
@@ -120,7 +127,7 @@ Promise.all([getUserData(), getCards()])
     profileDescription.textContent = userData.about;
     profileAvatar.style.backgroundImage = `url('${userData.avatar}')`;
     profileId = userData._id;
-    cards.forEach((card) => {
+    cards.reverse().forEach((card) => {
       const newCard = createCard(
         card.name,
         card.link,
