@@ -86,6 +86,8 @@ function handleFormAddSubmit(evt) {
       res.name,
       res.link,
       res.likes.length,
+      profileId,
+      res.owner._id,
       deleteCard,
       toggleLikeCard,
       openCardImageModal
@@ -133,6 +135,8 @@ Promise.all([getUserData(), getCards()])
         card.name,
         card.link,
         card.likes.length,
+        profileId,
+        card.owner._id,
         deleteCard,
         toggleLikeCard,
         openCardImageModal

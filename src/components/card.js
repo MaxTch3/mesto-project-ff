@@ -4,20 +4,34 @@ function getCardTemplate() {
   return cardTemplate.cloneNode(true);
 }
 
-function createCard(name, link, like, onDelete, onLike, onModal) {
+function createCard(
+  name,
+  link,
+  like,
+  profileId,
+  ownerId,
+  onDelete,
+  onLike,
+  onModal
+) {
   const card = getCardTemplate();
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
   const buttonDelete = card.querySelector('.card__delete-button');
   const buttonLike = card.querySelector('.card__like-button');
   const likeNumber = card.querySelector('.card__like-number');
+  const isProfileIdMatch = ownerId === profileId;
 
   cardImage.src = link;
   cardImage.alt = name;
   cardTitle.textContent = name;
   likeNumber.textContent = like;
 
-  buttonDelete.addEventListener('click', onDelete);
+  if (isProfileIdMatch) {
+    buttonDelete.addEventListener('click', onDelete);
+  } else {
+    buttonDelete.disabled = true;
+  }
   buttonLike.addEventListener('click', onLike);
   cardImage.addEventListener('click', onModal);
   return card;
