@@ -50,3 +50,17 @@ export const deleteCardToServer = (cardId) => {
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
 };
+
+export const setLike = (cardId) => {
+  return fetch(`${apiConfig.baseUrl}cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: apiConfig.headers,
+  }).then((res) => checkResponse(res));
+};
+
+export const removeLike = (cardId) => {
+  return fetch(`${apiConfig.baseUrl}cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: apiConfig.headers,
+  }).then((res) => checkResponse(res));
+};

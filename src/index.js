@@ -7,6 +7,8 @@ import {
   deleteCardToServer,
   getCards,
   getUserData,
+  removeLike,
+  setLike,
   updateUserData,
 } from './components/api';
 
@@ -76,6 +78,31 @@ function handleRemoveCard(evt, cardId) {
     });
 }
 
+function handleLikeCard(evt, cardId, likeNumber) {
+  const isClassMatch = evt.target.classList.contains(
+    'card__like-button_is-active'
+  );
+  if (!isClassMatch) {
+    setLike(cardId)
+      .then((cardData) => {
+        console.log(cardData);
+        toggleLikeCard(evt, cardData.likes.length, likeNumber);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    removeLike(cardId)
+      .then((cardData) => {
+        console.log(cardData);
+        toggleLikeCard(evt, cardData.likes.length, likeNumber);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
+
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
   updateUserData(nameInput.value, descriptionInput.value)
@@ -96,7 +123,7 @@ function handleFormAddSubmit(evt) {
     const newCard = createCard(
       cardData,
       handleRemoveCard,
-      toggleLikeCard,
+      handleLikeCard,
       openCardImageModal,
       profileId
     );
@@ -141,7 +168,7 @@ Promise.all([getUserData(), getCards()])
       const newCard = createCard(
         cardData,
         handleRemoveCard,
-        toggleLikeCard,
+        handleLikeCard,
         openCardImageModal,
         profileId
       );
