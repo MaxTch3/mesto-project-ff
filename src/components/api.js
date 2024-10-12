@@ -43,3 +43,10 @@ export const addNewCard = (name, link) => {
     }),
   }).then((res) => checkResponse(res));
 };
+
+export const deleteCardToServer = (cardId) => {
+  return fetch(`${apiConfig.baseUrl}cards/${cardId}`, {
+    method: 'DELETE',
+    headers: apiConfig.headers,
+  }).then((res) => checkResponse(res));
+};

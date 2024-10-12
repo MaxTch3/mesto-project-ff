@@ -4,6 +4,7 @@ import { openPopup, closePopup, handleOverlayClose } from './components/modal';
 import { clearValidation, enableValidation } from './components/validation';
 import {
   addNewCard,
+  deleteCardToServer,
   getCards,
   getUserData,
   updateUserData,
@@ -65,6 +66,16 @@ function openCardImageModal(evt) {
   openPopup(popupTypeImage);
 }
 
+function handleRemoveCard(evt, cardId) {
+  deleteCardToServer(cardId)
+    .then(() => {
+      deleteCard(evt);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
   updateUserData(nameInput.value, descriptionInput.value)
@@ -84,7 +95,7 @@ function handleFormAddSubmit(evt) {
   addNewCard(titleInput.value, imageInput.value).then((cardData) => {
     const newCard = createCard(
       cardData,
-      deleteCard,
+      handleRemoveCard,
       toggleLikeCard,
       openCardImageModal,
       profileId
@@ -129,7 +140,7 @@ Promise.all([getUserData(), getCards()])
     cards.reverse().forEach((cardData) => {
       const newCard = createCard(
         cardData,
-        deleteCard,
+        handleRemoveCard,
         toggleLikeCard,
         openCardImageModal,
         profileId

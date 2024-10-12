@@ -12,6 +12,7 @@ function createCard(cardData, onDelete, onLike, onModal, profileId) {
   const buttonLike = card.querySelector('.card__like-button');
   const likeNumber = card.querySelector('.card__like-number');
   const isProfileIdMatch = cardData.owner._id === profileId;
+  const cardId = cardData._id;
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
@@ -19,7 +20,9 @@ function createCard(cardData, onDelete, onLike, onModal, profileId) {
   likeNumber.textContent = cardData.likes.length;
 
   if (isProfileIdMatch) {
-    buttonDelete.addEventListener('click', onDelete);
+    buttonDelete.addEventListener('click', (evt) => {
+      onDelete(evt, cardId)
+    });
   } else {
     buttonDelete.disabled = true;
   }
