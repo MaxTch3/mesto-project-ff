@@ -10,19 +10,19 @@ const checkResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };
 
-export const getUserData = () => {
+const getUserData = () => {
   return fetch(`${apiConfig.baseUrl}users/me`, {
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
 };
 
-export const getCards = () => {
+const getCards = () => {
   return fetch(`${apiConfig.baseUrl}cards`, {
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
 };
 
-export const updateUserData = (name, description) => {
+const updateUserData = (name, description) => {
   return fetch(`${apiConfig.baseUrl}users/me`, {
     method: 'PATCH',
     headers: apiConfig.headers,
@@ -33,7 +33,7 @@ export const updateUserData = (name, description) => {
   }).then((res) => checkResponse(res));
 };
 
-export const addNewCard = (name, link) => {
+const addNewCard = (name, link) => {
   return fetch(`${apiConfig.baseUrl}cards`, {
     method: 'POST',
     headers: apiConfig.headers,
@@ -44,23 +44,44 @@ export const addNewCard = (name, link) => {
   }).then((res) => checkResponse(res));
 };
 
-export const deleteCardToServer = (cardId) => {
+const deleteCardToServer = (cardId) => {
   return fetch(`${apiConfig.baseUrl}cards/${cardId}`, {
     method: 'DELETE',
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
 };
 
-export const setLike = (cardId) => {
+const setLike = (cardId) => {
   return fetch(`${apiConfig.baseUrl}cards/likes/${cardId}`, {
     method: 'PUT',
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
 };
 
-export const removeLike = (cardId) => {
+const removeLike = (cardId) => {
   return fetch(`${apiConfig.baseUrl}cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: apiConfig.headers,
   }).then((res) => checkResponse(res));
+};
+
+const updateProfileAvatar = (link) => {
+  return fetch(`${config.baseUrl}users/me/avatar`, {
+    method: 'PATCH',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      avatar: link,
+    }),
+  }).then((res) => checkResponse(res));
+};
+
+export {
+  getUserData,
+  getCards,
+  updateUserData,
+  addNewCard,
+  deleteCardToServer,
+  setLike,
+  removeLike,
+  updateProfileAvatar,
 };
