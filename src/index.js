@@ -85,7 +85,6 @@ function handleLikeCard(evt, cardId, likeNumber) {
   if (!isClassMatch) {
     setLike(cardId)
       .then((cardData) => {
-        console.log(cardData);
         toggleLikeCard(evt, cardData.likes.length, likeNumber);
       })
       .catch((err) => {
@@ -94,7 +93,6 @@ function handleLikeCard(evt, cardId, likeNumber) {
   } else {
     removeLike(cardId)
       .then((cardData) => {
-        console.log(cardData);
         toggleLikeCard(evt, cardData.likes.length, likeNumber);
       })
       .catch((err) => {
