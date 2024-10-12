@@ -81,16 +81,13 @@ function handleFormEditSubmit(evt) {
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  addNewCard(titleInput.value, imageInput.value).then((res) => {
+  addNewCard(titleInput.value, imageInput.value).then((cardData) => {
     const newCard = createCard(
-      res.name,
-      res.link,
-      res.likes.length,
-      profileId,
-      res.owner._id,
+      cardData,
       deleteCard,
       toggleLikeCard,
-      openCardImageModal
+      openCardImageModal,
+      profileId
     );
     addCard(newCard);
     closePopup(popupTypeNewCard);
@@ -129,17 +126,13 @@ Promise.all([getUserData(), getCards()])
     profileDescription.textContent = userData.about;
     profileAvatar.style.backgroundImage = `url('${userData.avatar}')`;
     profileId = userData._id;
-    cards.reverse().forEach((card) => {
-      console.log(card);
+    cards.reverse().forEach((cardData) => {
       const newCard = createCard(
-        card.name,
-        card.link,
-        card.likes.length,
-        profileId,
-        card.owner._id,
+        cardData,
         deleteCard,
         toggleLikeCard,
-        openCardImageModal
+        openCardImageModal,
+        profileId
       );
       addCard(newCard);
     });
