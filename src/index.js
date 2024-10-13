@@ -15,29 +15,29 @@ import {
 
 const placesList = document.querySelector('.places__list');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const popupTypeEdit = document.querySelector('.popup_type_edit');
 const profileAddButton = document.querySelector('.profile__add-button');
-const popupTypeNewCard = document.querySelector('.popup_type_new-card');
-const popupTypeImage = document.querySelector('.popup_type_image');
-const popupImage = popupTypeImage.querySelector('.popup__image');
-const popupCaption = popupTypeImage.querySelector('.popup__caption');
-const popupCloseButtons = document.querySelectorAll('.popup__close');
-const popups = document.querySelectorAll('.popup');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+const profileAvatar = document.querySelector('.profile__image');
+const profileAvatarEditButton = document.querySelector(
+  '.profile__edit-avatar-button'
+);
+const popupTypeEdit = document.querySelector('.popup_type_edit');
 const formEditElement = document.querySelector('form[name="edit-profile"]');
 const nameInput = formEditElement.querySelector('.popup__input_type_name');
 const descriptionInput = formEditElement.querySelector(
   '.popup__input_type_description'
 );
+const popupCloseButtons = document.querySelectorAll('.popup__close');
+const popups = document.querySelectorAll('.popup');
+const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
-const profileAvatar = document.querySelector('.profile__image');
+const popupTypeImage = document.querySelector('.popup_type_image');
+const popupImage = popupTypeImage.querySelector('.popup__image');
+const popupCaption = popupTypeImage.querySelector('.popup__caption');
 const popupTypeAvatarEdit = document.querySelector('.popup_type_avatar-edit');
-const profileAvatarEditButton = document.querySelector(
-  '.profile__edit-avatar-button'
-);
 const formAvatarEditElement = document.querySelector(
   'form[name="edit-avatar"]'
 );
@@ -63,6 +63,7 @@ function openProfileEditModal() {
 
 function openAvatarEditModal() {
   clearValidation(formAvatarEditElement, validationConfig);
+  formAvatarEditElement.reset();
   openPopup(popupTypeAvatarEdit);
 }
 
@@ -117,6 +118,7 @@ function handleLikeCard(evt, cardId, likeNumber) {
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
+  showLoadingState(true, popupTypeEdit);
   updateUserData(nameInput.value, descriptionInput.value)
     .then((res) => {
       profileTitle.textContent = res.name;
@@ -126,35 +128,51 @@ function handleFormEditSubmit(evt) {
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      showLoadingState(false, popupTypeEdit);
     });
 }
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  addNewCard(titleInput.value, imageInput.value).then((cardData) => {
-    const newCard = createCard(
-      cardData,
-      handleRemoveCard,
-      handleLikeCard,
-      openCardImageModal,
-      profileId
-    );
-    addCard(newCard);
-    closePopup(popupTypeNewCard);
-    formAddElement.reset();
-  });
+  showLoadingState(true, popupTypeNewCard);
+  addNewCard(titleInput.value, imageInput.value)
+    .then((cardData) => {
+      const newCard = createCard(
+        cardData,
+        handleRemoveCard,
+        handleLikeCard,
+        openCardImageModal,
+        profileId
+      );
+      addCard(newCard);
+      closePopup(popupTypeNewCard);
+      formAddElement.reset();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      showLoadingState(false, popupTypeNewCard);
+    });
 }
 
 function handleFormAvataEditSubmit(evt) {
   evt.preventDefault();
+  showLoadingState(true, popupTypeAvatarEdit);
   const link = avatarInput.value;
   updateProfileAvatar(link)
     .then(() => {
       profileAvatar.style.backgroundImage = `url('${link}')`;
       closePopup(popupTypeAvatarEdit);
+      formAvatarEditElement.reset();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      showLoadingState(false, popupTypeAvatarEdit);
     });
 }
 
@@ -165,6 +183,15 @@ function handleCloseButtonClick(evt) {
 
 function addCard(card) {
   placesList.prepend(card);
+}
+
+function showLoadingState(isLoading, popup) {
+  const button = popup.querySelector('.popup__button');
+  if (isLoading) {
+    button.classList.add('popup__button_loading');
+  } else {
+    button.classList.remove('popup__button_loading');
+  }
 }
 
 formEditElement.addEventListener('submit', handleFormEditSubmit);

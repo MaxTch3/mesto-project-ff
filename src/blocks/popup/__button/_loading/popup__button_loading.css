@@ -1,0 +1,7 @@
+.popup__button_loading {
+  pointer-events: none;
+}
+
+.popup__button_loading::before {
+  content: 'Сохранение...';
+}
