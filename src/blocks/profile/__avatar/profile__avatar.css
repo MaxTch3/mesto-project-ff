@@ -1,0 +1,9 @@
+.profile__avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile__avatar:hover .profile__edit-avatar-button {
+  opacity: 1;
+}
