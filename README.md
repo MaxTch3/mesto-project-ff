@@ -10,6 +10,7 @@
 * Реализовано взаимодействие с API
 * Сделана валидация форм
 
-
+### Ссылка наGitHub Pages
+https://maxtch3.github.io/mesto-project-ff/index.html
 ### Ссылка на репозиторий GitHub:
-https://github.com/MaxTch3/mesto-project-ff
+https://github.com/MaxTch3/mesto-project-ff/
