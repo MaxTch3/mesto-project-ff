@@ -33,6 +33,13 @@ const formAddElement = document.querySelector('form[name="new-place"]');
 const titleInput = formAddElement.querySelector('.popup__input_type_card-name');
 const imageInput = formAddElement.querySelector('.popup__input_type_url');
 const profileAvatar = document.querySelector('.profile__image');
+const popupTypeAvatarEdit = document.querySelector('.popup_type_avatar-edit');
+const profileAvatarEditButton = document.querySelector(
+  '.profile__edit-avatar-button'
+);
+const formAvatarEditElement = document.querySelector('form[name="edit-avatar"]');
+const avatarInput = formEditElement.querySelector('.popup__input_type_avatar-url');
+
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -50,6 +57,11 @@ function openProfileEditModal() {
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileDescription.textContent;
   openPopup(popupTypeEdit);
+}
+
+function openAvatarEditModal() {
+  clearValidation(formAvatarEditElement, validationConfig);
+  openPopup(popupTypeAvatarEdit)
 }
 
 function openNewCardModal() {
@@ -145,6 +157,7 @@ formAddElement.addEventListener('submit', handleFormAddSubmit);
 
 profileEditButton.addEventListener('click', openProfileEditModal);
 profileAddButton.addEventListener('click', openNewCardModal);
+profileAvatarEditButton.addEventListener('click', openAvatarEditModal)
 
 popupCloseButtons.forEach((button) => {
   button.addEventListener('click', handleCloseButtonClick);
