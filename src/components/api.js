@@ -66,7 +66,7 @@ const removeLike = (cardId) => {
 };
 
 const updateProfileAvatar = (link) => {
-  return fetch(`${config.baseUrl}users/me/avatar`, {
+  return fetch(`${apiConfig.baseUrl}users/me/avatar`, {
     method: 'PATCH',
     headers: apiConfig.headers,
     body: JSON.stringify({

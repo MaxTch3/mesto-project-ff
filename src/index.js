@@ -9,6 +9,7 @@ import {
   getUserData,
   removeLike,
   setLike,
+  updateProfileAvatar,
   updateUserData,
 } from './components/api';
 
@@ -37,9 +38,10 @@ const popupTypeAvatarEdit = document.querySelector('.popup_type_avatar-edit');
 const profileAvatarEditButton = document.querySelector(
   '.profile__edit-avatar-button'
 );
-const formAvatarEditElement = document.querySelector('form[name="edit-avatar"]');
-const avatarInput = formEditElement.querySelector('.popup__input_type_avatar-url');
-
+const formAvatarEditElement = document.querySelector(
+  'form[name="edit-avatar"]'
+);
+const avatarInput = document.querySelector('.popup__input_type_avatar-url');
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -61,7 +63,7 @@ function openProfileEditModal() {
 
 function openAvatarEditModal() {
   clearValidation(formAvatarEditElement, validationConfig);
-  openPopup(popupTypeAvatarEdit)
+  openPopup(popupTypeAvatarEdit);
 }
 
 function openNewCardModal() {
@@ -143,6 +145,19 @@ function handleFormAddSubmit(evt) {
   });
 }
 
+function handleFormAvataEditSubmit(evt) {
+  evt.preventDefault();
+  const link = avatarInput.value;
+  updateProfileAvatar(link)
+    .then(() => {
+      profileAvatar.style.backgroundImage = `url('${link}')`;
+      closePopup(popupTypeAvatarEdit);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 function handleCloseButtonClick(evt) {
   const popup = evt.target.closest('.popup');
   closePopup(popup);
@@ -154,10 +169,11 @@ function addCard(card) {
 
 formEditElement.addEventListener('submit', handleFormEditSubmit);
 formAddElement.addEventListener('submit', handleFormAddSubmit);
+formAvatarEditElement.addEventListener('submit', handleFormAvataEditSubmit);
 
 profileEditButton.addEventListener('click', openProfileEditModal);
 profileAddButton.addEventListener('click', openNewCardModal);
-profileAvatarEditButton.addEventListener('click', openAvatarEditModal)
+profileAvatarEditButton.addEventListener('click', openAvatarEditModal);
 
 popupCloseButtons.forEach((button) => {
   button.addEventListener('click', handleCloseButtonClick);

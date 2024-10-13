@@ -107,6 +107,7 @@
                 id="link-input"
                 name="link"
                 class="popup__input popup__input_type_url"
+                pattern="^https?:\/\/[^\s/$.?#].[^\s]*$"
                 placeholder="Ссылка на картинку"
                 required
               />
@@ -128,7 +129,8 @@
                 type="url"
                 id="avatar-link-input"
                 name="avatar-link"
-                class="popup__input popup__input_type_url"
+                class="popup__input popup__input_type_avatar-url"
+                pattern="^https?:\/\/[^\s/$.?#].[^\s]*$"
                 placeholder="Ссылка на картинку"
                 required
               />
